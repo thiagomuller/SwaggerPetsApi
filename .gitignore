@@ -1,0 +1,7 @@
+*.log
+/target/*
+*.properties
+/.settings/*
+/.project
+/.classpath
+
