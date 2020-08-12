@@ -22,7 +22,7 @@ public class Pet {
 	private String name;
 	
 	@Column(name="photoUrls")
-	@OneToMany
+	@OneToMany(mappedBy="photoUrls_id")
 	private List<Image> photoUrls;
 	
 	@Column(name="tags")
@@ -30,9 +30,9 @@ public class Pet {
 	private List<Tag> tags;
 	
 	@Column(name="status")
-	private Status status;
+	private PetStatus status;
 
-	public Pet(int id, String name, List<Image> photoUrls, List<Tag> tags, Status status) {
+	public Pet(int id, String name, List<Image> photoUrls, List<Tag> tags, PetStatus status) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -69,11 +69,11 @@ public class Pet {
 		this.tags = tags;
 	}
 
-	public Status getStatus() {
+	public PetStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(PetStatus status) {
 		this.status = status;
 	}
 			

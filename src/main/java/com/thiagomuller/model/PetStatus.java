@@ -1,6 +1,6 @@
 package com.thiagomuller.model;
 
-public enum Status {
+public enum PetStatus {
 	
 	AVAILABLE,
 	
