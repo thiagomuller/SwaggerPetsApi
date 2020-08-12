@@ -1,4 +1,4 @@
-package com.thiagomuller.service.impl;
+package com.thiagomuller.service;
 
 public enum Response {
 	INVALIDID,

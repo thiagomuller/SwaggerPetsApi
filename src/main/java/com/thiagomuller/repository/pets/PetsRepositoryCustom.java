@@ -1,4 +1,4 @@
-package com.thiagomuller.repository;
+package com.thiagomuller.repository.pets;
 
 import com.thiagomuller.model.Pet;
 

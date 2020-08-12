@@ -1,4 +1,4 @@
-package com.thiagomuller.service.impl;
+package com.thiagomuller.service.impl.pets;
 
 import java.util.Optional;
 
@@ -7,9 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.thiagomuller.model.Image;
 import com.thiagomuller.model.Pet;
-import com.thiagomuller.model.Status;
-import com.thiagomuller.repository.PetsRepository;
+import com.thiagomuller.model.PetStatus;
+import com.thiagomuller.repository.pets.PetsRepository;
+import com.thiagomuller.service.PetResponse;
+import com.thiagomuller.service.PetValidator;
 import com.thiagomuller.service.PetsService;
+import com.thiagomuller.service.Response;
 
 @Service
 public class PetsServiceImpl implements PetsService{
@@ -40,7 +43,7 @@ public class PetsServiceImpl implements PetsService{
 		return new PetResponse(updatedPet, Response.UPDATED);
 	}
 	
-	public Iterable<Pet> findAllPetsByStatus(Status status){
+	public Iterable<Pet> findAllPetsByStatus(PetStatus status){
 		//TODO implement this
 		return null;
 	}

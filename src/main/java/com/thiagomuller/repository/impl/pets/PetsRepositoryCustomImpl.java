@@ -1,4 +1,4 @@
-package com.thiagomuller.repository.impl;
+package com.thiagomuller.repository.impl.pets;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thiagomuller.model.Pet;
-import com.thiagomuller.repository.PetsRepositoryCustom;
+import com.thiagomuller.repository.pets.PetsRepositoryCustom;
 
 @Repository
 @Transactional(readOnly = true)

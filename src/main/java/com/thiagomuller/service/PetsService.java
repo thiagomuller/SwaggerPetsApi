@@ -3,7 +3,6 @@ package com.thiagomuller.service;
 
 import com.thiagomuller.model.Pet;
 import com.thiagomuller.model.PetStatus;
-import com.thiagomuller.service.impl.PetResponse;
 
 public interface PetsService {
 	public PetResponse save(Pet pet);
