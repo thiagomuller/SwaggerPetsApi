@@ -10,7 +10,6 @@ import com.thiagomuller.model.Pet;
 import com.thiagomuller.model.PetStatus;
 import com.thiagomuller.repository.pets.PetsRepository;
 import com.thiagomuller.service.PetResponse;
-import com.thiagomuller.service.PetValidator;
 import com.thiagomuller.service.PetsService;
 import com.thiagomuller.service.Response;
 
@@ -20,27 +19,35 @@ public class PetsServiceImpl implements PetsService{
 	@Autowired
 	private PetsRepository petsRepository;
 	
+	@Autowired
+	private PetIdValidatorImpl petIdValidator;
 
 	public PetResponse save(Pet pet) {
-		Response petValidationResponse = PetValidator.validatePetForCreation(pet);
+		/*
+		Response petValidationResponse = petIdValidator.validatePetForCreation(pet);
 		if(petValidationResponse.equals(Response.INVALIDID) || 
 				petValidationResponse.equals(Response.INCOMPLETE))
 			return new PetResponse(pet, petValidationResponse);
-		if(PetValidator.validateIfIdAlreadyExists(pet, petsRepository))
+		if(petIdValidator.validateIfIdAlreadyExists(pet.getId()))
 			return new PetResponse(null, Response.INVALIDID);
 		Pet savedPet = petsRepository.save(pet);
 		return new PetResponse(savedPet, Response.CREATED);
+		*/
+		return null;
 	}
 	
 	public PetResponse update(Pet pet) {
+		/*
 		Response petValidationResponse = PetValidator.validatePetForCreation(pet);
 		if(petValidationResponse.equals(Response.INVALIDID) || 
 				petValidationResponse.equals(Response.INCOMPLETE))
 			return new PetResponse(pet, petValidationResponse);
-		if(!PetValidator.validateIfIdAlreadyExists(pet, petsRepository))
+		if(!PetValidator.validateIfIdAlreadyExists(pet, this))
 			return new PetResponse(null, Response.NOTFOUND);
 		Pet updatedPet = petsRepository.save(pet);
 		return new PetResponse(updatedPet, Response.UPDATED);
+		*/
+		return null;
 	}
 	
 	public Iterable<Pet> findAllPetsByStatus(PetStatus status){
@@ -81,6 +88,11 @@ public class PetsServiceImpl implements PetsService{
 		if(response.getResponse().equals(Response.UPDATED))
 			return new PetResponse(pet, Response.UPDATED);
 		return new PetResponse(pet, Response.NOTFOUND);
+	}
+
+	@Override
+	public PetResponse update(int id, String name, String status) {
+		return null;
 	}
 
 }
