@@ -15,14 +15,13 @@ import javax.persistence.Table;
 public class Pet {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	private int id;
+	private Integer id;
 	
 	@Column(name="name")
 	private String name;
 	
 	@Column(name="photoUrls")
-	@OneToMany(mappedBy="photoUrls_id")
+	@OneToMany(mappedBy="id")
 	private List<Image> photoUrls;
 	
 	@Column(name="tags")
@@ -31,9 +30,10 @@ public class Pet {
 	
 	@Column(name="status")
 	private PetStatus status;
+	
+	public Pet() {}
 
-	public Pet(int id, String name, List<Image> photoUrls, List<Tag> tags, PetStatus status) {
-		super();
+	public Pet(Integer id, String name, List<Image> photoUrls, List<Tag> tags, PetStatus status) {
 		this.id = id;
 		this.name = name;
 		this.photoUrls = photoUrls;
@@ -43,6 +43,10 @@ public class Pet {
 
 	public int getId() {
 		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getName() {

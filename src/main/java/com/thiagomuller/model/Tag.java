@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @Table(name="Tag")
 public class Tag {
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private int id;
 	
 	@Column(name="name")
