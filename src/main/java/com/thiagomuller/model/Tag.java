@@ -6,13 +6,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Tag")
+@Table(name="TAGS")
 public class Tag {
 	@Id
 	private int id;
 	
 	@Column(name="name")
 	private String name;
+	
+	public Tag() {}
 	
 	public Tag(int id, String name) {
 		this.id = id;
