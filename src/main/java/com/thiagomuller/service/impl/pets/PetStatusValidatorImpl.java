@@ -13,7 +13,7 @@ public class PetStatusValidatorImpl implements PetStatusValidator{
 		String upperCasedStatus = status.toUpperCase();
 		PetStatus[] possibleStatus = PetStatus.values();
 		for(int i  = 0; i < possibleStatus.length; i++) {
-			if(possibleStatus.equals(upperCasedStatus))
+			if(possibleStatus[i].name().equals(upperCasedStatus))
 				return true;
 		}
 		return false;

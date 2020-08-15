@@ -17,20 +17,17 @@ public class PetIdValidatorImpl {
 	}
 	
 	public boolean validateIsValidInt(Integer petId) {
-		if(!(petId instanceof Integer) || (petId != null)) {
+		if(petId == null)
 			return false;
-		}
-		if(petId < 0) {
+		if(petId < 0)
 			return false;
-		}
 		return true;
 	}
 	
 	public boolean validateIfIdAlreadyExists(Integer petId) {
 		Optional<Pet> pet = petRepository.findById(petId);
-		if(!pet.isPresent()) {
+		if(!pet.isPresent())
 			return false;
-		}
 		return true;
 	}
 }
