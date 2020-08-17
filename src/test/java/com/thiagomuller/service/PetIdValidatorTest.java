@@ -17,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.thiagomuller.model.Pet;
 import com.thiagomuller.model.PetStatus;
 import com.thiagomuller.repository.pets.PetsRepository;
+import com.thiagomuller.service.impl.pets.PetIdValidator;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -40,19 +41,19 @@ public class PetIdValidatorTest {
 	
 	@Test
 	public void negativePetIdShouldReturnFalse() {
-		assertFalse(petIdValidator.validateIsValidInt(-1), "Negative pet id should return false");
+		assertFalse(petIdValidator.idValidator.validateIsValidInt(-1), "Negative pet id should return false");
 	}
 	
 	@Test
 	public void petWithExistentIdShouldReturnTrue() {
 		when(petRepository.findById(1)).thenReturn(Optional.of(fakePet));
-		assertTrue(petIdValidator.validateIfIdAlreadyExists(1), "Already existing pet id on db should return true");
+		assertTrue(petIdValidator.idValidator.validateIfIdAlreadyExists(1), "Already existing pet id on db should return true");
 	}
 	
 	@Test
 	public void petWithNonExistentIdShouldReturnTrue() {
 		when(petRepository.findById(1)).thenReturn(Optional.of(fakePet));
-		assertFalse(petIdValidator.validateIfIdAlreadyExists(2), "Non existing, positive pet id should return false");
+		assertFalse(petIdValidator.idValidator.validateIfIdAlreadyExists(2), "Non existing, positive pet id should return false");
 	}
 	
 }

@@ -1,6 +1,6 @@
 package com.thiagomuller.service;
 
-public abstract interface IdValidator {
+public interface IdValidator {
 	
 	public boolean validateIsValidInt(Integer id);
 	
