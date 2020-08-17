@@ -1,13 +1,12 @@
 package com.thiagomuller.service.impl.pets;
 
-
 import org.springframework.stereotype.Service;
 
 import com.thiagomuller.repository.pets.PetsRepository;
 import com.thiagomuller.service.PetIdValidator;
 
 @Service
-public class PetIdValidatorImpl extends IdValidatorImpl implements PetIdValidator{
+public class PetIdValidatorImpl extends IdValidatorImpl<PetsRepository> implements PetIdValidator{
 	
 	private PetsRepository petRepository;
 	

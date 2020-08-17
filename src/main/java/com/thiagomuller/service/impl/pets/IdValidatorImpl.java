@@ -2,31 +2,29 @@ package com.thiagomuller.service.impl.pets;
 
 import java.util.Optional;
 
-import com.thiagomuller.model.Pet;
-import com.thiagomuller.repository.pets.PetsRepository;
+import org.springframework.data.repository.CrudRepository;
+
 import com.thiagomuller.service.IdValidator;
 
-public abstract class IdValidatorImpl implements IdValidator{
+public abstract class IdValidatorImpl<T extends CrudRepository> implements IdValidator{
 	
-	private PetsRepository petRepository;
+	private T repository;
 	
-	public IdValidatorImpl(PetsRepository petRepository) {
-		this.petRepository = petRepository;
+	public IdValidatorImpl(T repository) {
+		this.repository = repository;
 	}
 	
-	@Override
-	public boolean validateIsValidInt(Integer petId) {
-		if(petId == null)
+	public boolean validateIsValidInt(Integer id) {
+		if(id == null)
 			return false;
-		if(petId < 0)
+		if(id < 0)
 			return false;
 		return true;
 	}
 
-	@Override
-	public boolean validateIfIdAlreadyExists(Integer petId) {
-		Optional<Pet> pet = petRepository.findById(petId);
-		if(!pet.isPresent())
+	public boolean validateIfIdAlreadyExists(Integer id) {
+		Optional<T> entity = repository.findById(id);
+		if(!entity.isPresent())
 			return false;
 		return true;
 	}

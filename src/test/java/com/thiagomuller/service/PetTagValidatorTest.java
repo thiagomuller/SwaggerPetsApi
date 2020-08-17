@@ -44,23 +44,21 @@ public class PetTagValidatorTest {
 	
 	@Test
 	public void tagWithExistentIdShouldReturnTrue() {
-		Optional<Tag> optionalFakeTag = Optional.of(fakeTag);
-		when(tagRepository.findById(1)).thenReturn(optionalFakeTag);
+		when(tagRepository.findById(1)).thenReturn(Optional.of(fakeTag));
 		assertTrue(petTagValidator.validateIfIdAlreadyExists(1),
 				"An existent tag id must return true");
 	}
 	
 	@Test
 	public void tagWithNonExistentIdShouldReturnFalse() {
-		Optional<Tag> optionalFakeTag = Optional.of(fakeTag);
-		when(tagRepository.findById(1)).thenReturn(optionalFakeTag);
+		when(tagRepository.findById(1)).thenReturn(Optional.of(fakeTag));
 		assertFalse(petTagValidator.validateIfIdAlreadyExists(2),
 				"A non existent tag id must return false");
 	}
 	
 	@Test
 	public void tagWithNoTextShouldReturnFalse() {
-		assertFalse(petTagValidator.validateIfTagHasANotEmptyname(""),
+		assertTrue(petTagValidator.isTagNameEmpty(""),
 				"Tags with empty name should return false");
 	}
 	
