@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thiagomuller.model.Pet;
-import com.thiagomuller.service.PetsService;
+import com.thiagomuller.service.Response;
+import com.thiagomuller.service.pets.PetResponse;
+import com.thiagomuller.service.pets.PetsService;
 
 @RestController
 @RequestMapping("/pet")
@@ -18,7 +20,8 @@ public class PetsController {
 	
 	@PostMapping
 	public void createPet(@RequestBody Pet pet) {
-		petService.save(pet);
+		petService.saveOrUpdate(pet);
+		
 	}
 	
 	

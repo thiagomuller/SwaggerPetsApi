@@ -1,7 +1,8 @@
-package com.thiagomuller.service;
+package com.thiagomuller.service.pets;
 
 
 import com.thiagomuller.model.Pet;
+import com.thiagomuller.service.Response;
 
 public class PetResponse {
 	

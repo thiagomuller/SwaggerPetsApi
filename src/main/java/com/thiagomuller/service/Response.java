@@ -3,11 +3,21 @@ package com.thiagomuller.service;
 public enum Response {
 	INVALIDID,
 	
+	INVALIDNAME,
+	
+	INVALIDTAGNAME,
+	
+	INVALIDSTATUS,
+	
 	VALIDID,
 	
 	INCOMPLETE,
 	
 	VALIDPET,
+	
+	INVALIDIMAGEID,
+	
+	INVALIDIMAGEURL,
 	
 	IMAGEUPLOADED,
 	

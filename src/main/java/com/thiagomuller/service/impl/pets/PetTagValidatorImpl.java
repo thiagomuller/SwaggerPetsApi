@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.thiagomuller.repository.pets.PetsRepository;
 import com.thiagomuller.repository.pets.TagRepository;
-import com.thiagomuller.service.PetTagValidator;
+import com.thiagomuller.service.pets.PetTagValidator;
 
 @Service
 public class PetTagValidatorImpl extends IdValidatorImpl<TagRepository> implements PetTagValidator{

@@ -7,6 +7,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.thiagomuller.model.Pet;
+import com.thiagomuller.model.PetStatus;
 import com.thiagomuller.repository.pets.PetsRepositoryCustom;
 
 @Repository
@@ -16,7 +17,7 @@ public class PetsRepositoryCustomImpl implements PetsRepositoryCustom{
 	private EntityManager entityManager;
 
 	@Override
-	public Iterable<Pet> findPetsByStatusIn(Iterable<String> statusList) {
+	public Iterable<Pet> findPetsByStatusIn(Iterable<PetStatus> statusList) {
 		StringBuilder hql = new StringBuilder();
 		hql.append("from Pet pet");
 		hql.append(" where pet.status");

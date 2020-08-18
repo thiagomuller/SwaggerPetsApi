@@ -1,4 +1,4 @@
-package com.thiagomuller.service;
+package com.thiagomuller.service.pets;
 
 public interface PetStatusValidator {
 	

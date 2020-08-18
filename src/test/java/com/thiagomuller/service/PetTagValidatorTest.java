@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.thiagomuller.model.Tag;
 import com.thiagomuller.repository.pets.TagRepository;
+import com.thiagomuller.service.pets.PetTagValidator;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

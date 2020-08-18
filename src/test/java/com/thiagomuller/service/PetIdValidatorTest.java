@@ -17,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.thiagomuller.model.Pet;
 import com.thiagomuller.model.PetStatus;
 import com.thiagomuller.repository.pets.PetsRepository;
+import com.thiagomuller.service.pets.PetIdValidator;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

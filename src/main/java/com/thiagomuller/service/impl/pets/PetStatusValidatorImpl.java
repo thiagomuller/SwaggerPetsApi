@@ -3,7 +3,7 @@ package com.thiagomuller.service.impl.pets;
 import org.springframework.stereotype.Service;
 
 import com.thiagomuller.model.PetStatus;
-import com.thiagomuller.service.PetStatusValidator;
+import com.thiagomuller.service.pets.PetStatusValidator;
 
 @Service
 public class PetStatusValidatorImpl implements PetStatusValidator{
