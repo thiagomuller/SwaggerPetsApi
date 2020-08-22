@@ -1,6 +1,7 @@
 package com.thiagomuller.service.impl;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -20,8 +21,10 @@ public class FileUploadServiceImpl implements FileUploadService{
 	@Override
 	public void uploadFile(MultipartFile file) {
 		try {
+			byte[] bytes = file.getBytes();
 			Path copyLocation = Paths.get(uploadDir + File.separator + 
 					StringUtils.cleanPath(file.getOriginalFilename()));
+			Files.write(copyLocation, bytes);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
