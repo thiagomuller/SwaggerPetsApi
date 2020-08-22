@@ -1,4 +1,4 @@
-package com.thiagomuller.repository.pets;
+package com.thiagomuller.repository.tags;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -6,4 +6,4 @@ import org.springframework.stereotype.Repository;
 import com.thiagomuller.model.Tag;
 
 @Repository
-public interface TagRepository extends CrudRepository<Tag, Integer>{}
+public interface TagsRepository extends CrudRepository<Tag, Integer>{}

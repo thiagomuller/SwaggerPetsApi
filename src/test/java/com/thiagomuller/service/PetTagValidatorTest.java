@@ -15,20 +15,20 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.thiagomuller.model.Tag;
-import com.thiagomuller.repository.pets.TagRepository;
-import com.thiagomuller.service.pets.PetTagValidator;
+import com.thiagomuller.repository.tags.TagsRepository;
+import com.thiagomuller.service.tags.TagValidator;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class PetTagValidatorTest {
 	
 	@Autowired
-	PetTagValidator petTagValidator;
+	TagValidator petTagValidator;
 	
 	private static Tag fakeTag;
 	
 	@MockBean
-	TagRepository tagRepository;
+	TagsRepository tagRepository;
 	
 	@BeforeAll
 	public static void setup() {
@@ -46,14 +46,14 @@ public class PetTagValidatorTest {
 	@Test
 	public void tagWithExistentIdShouldReturnTrue() {
 		when(tagRepository.findById(1)).thenReturn(Optional.of(fakeTag));
-		assertTrue(petTagValidator.validateIfIdAlreadyExists(1),
+		assertTrue(petTagValidator.doesIdAlreadyExistsInDb(1),
 				"An existent tag id must return true");
 	}
 	
 	@Test
 	public void tagWithNonExistentIdShouldReturnFalse() {
 		when(tagRepository.findById(1)).thenReturn(Optional.of(fakeTag));
-		assertFalse(petTagValidator.validateIfIdAlreadyExists(2),
+		assertFalse(petTagValidator.doesIdAlreadyExistsInDb(2),
 				"A non existent tag id must return false");
 	}
 	

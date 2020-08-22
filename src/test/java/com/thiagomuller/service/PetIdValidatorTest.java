@@ -47,13 +47,13 @@ public class PetIdValidatorTest {
 	@Test
 	public void petWithExistentIdShouldReturnTrue() {
 		when(petRepository.findById(1)).thenReturn(Optional.of(fakePet));
-		assertTrue(petIdValidator.validateIfIdAlreadyExists(1), "Already existing pet id on db should return true");
+		assertTrue(petIdValidator.doesIdAlreadyExistsInDb(1), "Already existing pet id on db should return true");
 	}
 	
 	@Test
 	public void petWithNonExistentIdShouldReturnTrue() {
 		when(petRepository.findById(1)).thenReturn(Optional.of(fakePet));
-		assertFalse(petIdValidator.validateIfIdAlreadyExists(2), "Non existing, positive pet id should return false");
+		assertFalse(petIdValidator.doesIdAlreadyExistsInDb(2), "Non existing, positive pet id should return false");
 	}
 	
 }

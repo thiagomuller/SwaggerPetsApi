@@ -8,17 +8,22 @@ import javax.persistence.Table;
 @Entity
 @Table(name="TAGS")
 public class Tag {
+	
 	@Id
-	private int id;
+	private Integer id;
 	
 	@Column(name="name")
 	private String name;
 	
+	@Column(name="petId")
+	private Integer petId;
+	
 	public Tag() {}
 	
-	public Tag(int id, String name) {
+	public Tag(int id, String name, Integer petId) {
 		this.id = id;
 		this.name = name;
+		this.petId = petId;
 	}
 
 	public int getId() {
@@ -36,6 +41,16 @@ public class Tag {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public Integer getPetId() {
+		return petId;
+	}
+
+	public void setPetId(Integer petId) {
+		this.petId = petId;
+	}
+	
+	
 	
 	
 	

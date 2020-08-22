@@ -22,8 +22,7 @@ public class Pet {
 	@OneToMany(mappedBy="id")
 	private List<Image> photoUrls;
 	
-	@Column(name="tags")
-	@OneToMany
+	@OneToMany(mappedBy = "petId")
 	private List<Tag> tags;
 	
 	@Column(name="status")

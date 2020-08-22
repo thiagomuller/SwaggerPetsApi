@@ -2,17 +2,20 @@ package com.thiagomuller.service.pets;
 
 
 import java.util.List;
+import java.util.Map;
 
 import com.thiagomuller.model.Pet;
-import com.thiagomuller.model.PetStatus;
+import com.thiagomuller.service.PetResponse;
+import com.thiagomuller.service.ServiceResponse;
 
 public interface PetsService {
-	public PetResponse saveOrUpdate(Pet pet);
-	public PetResponse update(int id, String name, String status);
-	public Iterable<Pet> findAllPetsByStatus(List<String> status);
-	public PetResponse findPetById(Integer id);
+	public ServiceResponse save(Pet pet);
+	public ServiceResponse update(Pet pet);
+	public ServiceResponse update(int id, String name, String status);
+	public Map<PetResponse, Iterable<Pet>> findAllPetsByStatus(List<String> status);
+	public ServiceResponse findPetById(Integer id);
 	public Iterable<Pet> getAllPets();
-	public PetResponse deletePet(Integer id);
-	public PetResponse uploadImage(Integer petId, String imageUrl);
+	public ServiceResponse deletePet(Integer id);
+	public ServiceResponse uploadImage(Integer petId, String imageUrl);
 	public void deleteAllPets();
 }

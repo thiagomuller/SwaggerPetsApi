@@ -1,4 +1,4 @@
-package com.thiagomuller.service.impl.pets;
+package com.thiagomuller.service.impl;
 
 import java.util.Optional;
 
@@ -22,10 +22,10 @@ public abstract class IdValidatorImpl<T extends CrudRepository> implements IdVal
 		return true;
 	}
 
-	public boolean validateIfIdAlreadyExists(Integer id) {
+	public boolean doesIdAlreadyExistsInDb(Integer id) {
 		Optional<T> entity = repository.findById(id);
-		if(!entity.isPresent())
-			return false;
-		return true;
+		if((entity != null) && (entity.isPresent()))
+			return true;
+		return false;
 	}
 }

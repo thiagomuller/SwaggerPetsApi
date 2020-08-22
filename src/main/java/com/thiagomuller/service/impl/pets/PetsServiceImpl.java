@@ -1,7 +1,9 @@
 package com.thiagomuller.service.impl.pets;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,16 +11,15 @@ import org.springframework.stereotype.Service;
 import com.thiagomuller.model.Image;
 import com.thiagomuller.model.Pet;
 import com.thiagomuller.model.PetStatus;
-import com.thiagomuller.model.Tag;
 import com.thiagomuller.repository.pets.PetsRepository;
-import com.thiagomuller.service.Response;
+import com.thiagomuller.service.PetResponse;
+import com.thiagomuller.service.ServiceResponse;
 import com.thiagomuller.service.pets.PetIdValidator;
 import com.thiagomuller.service.pets.PetImageValidator;
 import com.thiagomuller.service.pets.PetNameValidator;
-import com.thiagomuller.service.pets.PetResponse;
 import com.thiagomuller.service.pets.PetStatusValidator;
-import com.thiagomuller.service.pets.PetTagValidator;
 import com.thiagomuller.service.pets.PetsService;
+import com.thiagomuller.service.tags.TagValidator;
 
 @Service
 public class PetsServiceImpl implements PetsService{
@@ -30,7 +31,7 @@ public class PetsServiceImpl implements PetsService{
 	PetIdValidator petIdValidator;
 	
 	@Autowired
-	PetTagValidator petTagValidator;
+	TagValidator petTagValidator;
 	
 	@Autowired
 	PetNameValidator petNameValidator;
@@ -42,45 +43,64 @@ public class PetsServiceImpl implements PetsService{
 	PetImageValidator petImageValidator;
 	
 	@Override
-	public PetResponse saveOrUpdate(Pet pet) {
-		Response attrValidationResponse = validatePetAttributes(pet);
-		if(!attrValidationResponse.equals(Response.VALIDID))
-			return new PetResponse(pet, attrValidationResponse);
-		return new PetResponse(petsRepository.save(pet), Response.CREATED);
+	public ServiceResponse<Pet, PetResponse> save(Pet pet) {
+		if(!petIdValidator.validateIsValidInt(pet.getId()))
+			return new ServiceResponse(pet, PetResponse.INVALIDPETID);
+		if(petNameValidator.isNameEmpty(pet.getName()))
+			return new ServiceResponse(pet, PetResponse.INVALIDPETNAME);
+		if(petIdValidator.doesIdAlreadyExistsInDb(pet.getId()))
+			return update(pet);
+		return new ServiceResponse(petsRepository.save(pet), PetResponse.PETCREATED);
+	}
+	
+	@Override
+	public ServiceResponse update(Pet pet) {
+		Pet petFoundInDb = petsRepository.findById(pet.getId()).get();
+		petFoundInDb.setName(pet.getName());
+		petFoundInDb.setPhotoUrls(pet.getPhotoUrls());
+		petFoundInDb.setStatus(pet.getStatus());
+		petFoundInDb.setTags(pet.getTags());
+		return new ServiceResponse(petsRepository.save(petFoundInDb), PetResponse.PETUPDATED);
 	}
 
 	@Override
-	public PetResponse update(int id, String name, String status) {
-		if(!petIdValidator.validateIfIdAlreadyExists(id))
-			return new PetResponse(null, Response.NOTFOUND);
+	public ServiceResponse<Pet, PetResponse> update(int id, String name, String status) {
+		if(!petIdValidator.doesIdAlreadyExistsInDb(id))
+			return new ServiceResponse(null, PetResponse.PETNOTFOUND);
 		if(petNameValidator.isNameEmpty(name))
-			return new PetResponse(null, Response.INVALIDNAME);
+			return new ServiceResponse(null, PetResponse.INVALIDPETNAME);
 		if(!petIdValidator.validateIsValidInt(id))
-			return new PetResponse(null, Response.INVALIDID);
+			return new ServiceResponse(null, PetResponse.INVALIDPETID);
 		if(!petStatusValidator.validateStatus(status))
-			return new PetResponse(null, Response.INVALIDSTATUS);
+			return new ServiceResponse(null, PetResponse.INVALIDPETSTATUS);
 		Pet petToUpdate = petsRepository.findById(id).get();
 		petToUpdate.setName(name);
 		petToUpdate.setStatus(PetStatus.valueOf(status));
-		return new PetResponse(petsRepository.save(petToUpdate), Response.UPDATED);
+		return new ServiceResponse(petsRepository.save(petToUpdate), PetResponse.PETUPDATED);
 	}
 
 	@Override
-	public Iterable<Pet> findAllPetsByStatus(List<String> status) {
+	public Map<PetResponse, Iterable<Pet>> findAllPetsByStatus(List<String> status) {
+		Map<PetResponse, Iterable<Pet>> response = new HashMap<>();
 		List<PetStatus> validStatus = new ArrayList<>();
 		for(String stat : status) {
 			if(petStatusValidator.validateStatus(stat))
 				status.add(stat);
 		}
-		return petsRepository.findPetsByStatusIn(validStatus);
+		if(validStatus.isEmpty()) {
+			response.put(PetResponse.INVALIDPETSTATUS, null);
+			return response;
+		}
+		response.put(PetResponse.PETFOUND, petsRepository.findPetsByStatusIn(validStatus));
+		return response;
 	}
 
 	@Override
-	public PetResponse findPetById(Integer id) {
-		if(!petIdValidator.validateIfIdAlreadyExists(id)) {
-			return new PetResponse(null, Response.NOTFOUND);
+	public ServiceResponse<Pet, PetResponse> findPetById(Integer id) {
+		if(!petIdValidator.doesIdAlreadyExistsInDb(id)) {
+			return new ServiceResponse(null, PetResponse.PETNOTFOUND);
 		}
-		return new PetResponse(petsRepository.findById(id).get(), Response.VALIDPET);
+		return new ServiceResponse(petsRepository.findById(id).get(), PetResponse.VALIDPET);
 	}
 
 	@Override
@@ -89,25 +109,27 @@ public class PetsServiceImpl implements PetsService{
 	}
 
 	@Override
-	public PetResponse deletePet(Integer id) {
-		if(!petIdValidator.validateIfIdAlreadyExists(id)) {
-			return new PetResponse(null, Response.NOTFOUND);
+	public ServiceResponse<Pet, PetResponse> deletePet(Integer id) {
+		if(!petIdValidator.doesIdAlreadyExistsInDb(id)) {
+			return new ServiceResponse(null, PetResponse.PETNOTFOUND);
 		}
+		if(!petIdValidator.validateIsValidInt(id))
+			return new ServiceResponse(null, PetResponse.INVALIDPETID);
 		Pet petToDelete = petsRepository.findById(id).get();
 		petsRepository.delete(petToDelete);
-		return new PetResponse(null, Response.DELETED);
+		return new ServiceResponse(null, PetResponse.PETDELETED);
 	}
 
 	@Override
-	public PetResponse uploadImage(Integer petId, String imageUrl) {
-		if(!petIdValidator.validateIfIdAlreadyExists(petId)){
-			return new PetResponse(null, Response.NOTFOUND);
+	public ServiceResponse<Pet, PetResponse> uploadImage(Integer petId, String imageUrl) {
+		if(!petIdValidator.doesIdAlreadyExistsInDb(petId)){
+			return new ServiceResponse(null, PetResponse.PETNOTFOUND);
 		}
 		if(petImageValidator.isPhotoUrlEmpty(imageUrl))
-			return new PetResponse(null, Response.INVALIDIMAGEURL);
+			return new ServiceResponse(null, PetResponse.INVALIDIMAGEURL);
 		Pet pet = petsRepository.findById(petId).get();
 		pet.getPhotoUrls().add(new Image(imageUrl));
-		return new PetResponse(petsRepository.save(pet), Response.UPDATED);
+		return new ServiceResponse(petsRepository.save(pet), PetResponse.PETUPDATED);
 	}
 	
 
@@ -116,29 +138,4 @@ public class PetsServiceImpl implements PetsService{
 		petsRepository.deleteAll();
 	}
 
-	
-	private Response validatePetAttributes(Pet pet) {
-		if(!petIdValidator.validateIsValidInt(pet.getId()))
-			return Response.INVALIDID;
-		if(petNameValidator.isNameEmpty(pet.getName()))
-			return Response.INVALIDNAME;
-		if(verifyIfAnyOftheGivenTagNamesIsEmpty(pet.getTags()))
-			return Response.INVALIDTAGNAME;
-		return Response.VALIDID;
-	}
-	
-	private boolean validatePetStatus(String status) {
-		if(!petStatusValidator.validateStatus(status))
-			return false;
-		return true;
-		
-	}
-	
-	private boolean verifyIfAnyOftheGivenTagNamesIsEmpty(List<Tag> tags) {
-		for(int i = 0; i < tags.size(); i++) {
-			if(tags.get(i).getName().isEmpty())
-				return true;
-		}
-		return false;
-	}
 }
