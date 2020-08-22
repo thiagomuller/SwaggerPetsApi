@@ -85,7 +85,7 @@ public class PetsServiceImpl implements PetsService{
 		List<PetStatus> validStatus = new ArrayList<>();
 		for(String stat : status) {
 			if(petStatusValidator.validateStatus(stat))
-				status.add(stat);
+				validStatus.add(PetStatus.valueOf(stat.toUpperCase()));
 		}
 		if(validStatus.isEmpty()) {
 			response.put(PetResponse.INVALIDPETSTATUS, null);
